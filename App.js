@@ -20,32 +20,29 @@ import {
 
 import Icons from './components/Icons'
 
+ 
+const itemArray = new Array(9).fill('empty')
+ 
+
 const App = () => {
 
   const [isCross, setIsCross] = useState(false)
-  const [winMessage,setWinMessage] = useState('') 
-
-  
-  const itemArray = new Array(9).fill('empty')
-  
+  const [winMessage,setWinMessage] = useState('')   
+  const [toast,setToast] = useState('Go Go Go...')   
   
 
   const changeItem = (itemNumber) => {
     if(winMessage){
       return(
-        <View style={{backgroundColor:"#535C68"}}>
-          <Text style={styles.myToast}>You Are Win!!!</Text>
-        </View>
-      )
+        setToast("You are Won !!!!")
+      ) 
     }
-    if(itemArray[itemNumber] === 'empty'){
+    if(itemArray[itemNumber]==='empty'){
       itemArray[itemNumber] = isCross ? 'cross' : 'circle';
       setIsCross(!isCross)
     }else{
-      return(
-        <View style={{backgroundColor:"#535C68"}}>
-          <Text style={styles.myToast}>Possition Alredy Filled!!!</Text>
-        </View>
+      return(        
+      setToast("All Position Filled!!!")
       )
     }
     checkIsWinner();
@@ -54,6 +51,7 @@ const App = () => {
   const reloadGame = () => {
     setIsCross(false)
     setWinMessage('')
+    setToast('Go Go Go....')
     itemArray.fill('empty',0,9)  
   }
   
@@ -146,14 +144,18 @@ const App = () => {
             rounded
             >
               <Text>Reload Game</Text>
-            </Button>
-          </View>
+            </Button>         
+          </View>        
         ) : (
           <H3 style={styles.msg}>
             {isCross ? 'cross' : 'circle'} turns
           </H3>
         )}
+       
       </Content>
+      <View style={{backgroundColor:"#ee2424"}}>
+        <Text style={styles.myToast}>{toast}</Text>
+      </View>
     </Container>    
     </>
   );
@@ -185,9 +187,10 @@ const styles = StyleSheet.create({
     marginVertical:10
   },
   myToast:{
+    marginTop:15,    
     alignItems:'flex-end',
-    justifyContent:'flex-end',
-    color:"#ffff",
+    justifyContent:'center',
+    color:"#ffff",    
     fontSize:20
   }
 });
